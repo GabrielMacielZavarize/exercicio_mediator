@@ -1,0 +1,46 @@
+classDiagram
+    class MediadorChat {
+        <<interface>>
+        +registrar(Usuario usuario) void
+        +remover(Usuario usuario) void
+        +enviar(Usuario remetente, String mensagem) void
+        +enviarPrivado(Usuario remetente, String destinatario, String mensagem) void
+    }
+    class SalaChat {
+        -String nome
+        -Map~String, Usuario~ participantes
+        +SalaChat(String nome)
+        +registrar(Usuario usuario) void
+        +remover(Usuario usuario) void
+        +enviar(Usuario remetente, String mensagem) void
+        +enviarPrivado(Usuario remetente, String destinatario, String mensagem) void
+        -avisar(String texto) void
+    }
+    class ChatPrivado {
+        -List~Usuario~ participantes
+        +registrar(Usuario usuario) void
+        +remover(Usuario usuario) void
+        +enviar(Usuario remetente, String mensagem) void
+        +enviarPrivado(Usuario remetente, String destinatario, String mensagem) void
+    }
+    class Usuario {
+        -String nome
+        -MediadorChat mediador
+        +Usuario(String nome)
+        +getNome() String
+        +entrar(MediadorChat sala) void
+        +sair() void
+        +enviar(String mensagem) void
+        +enviarPrivado(String destinatario, String mensagem) void
+        +receber(String remetente, String mensagem) void
+    }
+    class Main {
+        +main(String[] args)$ void
+    }
+    MediadorChat <|.. SalaChat
+    MediadorChat <|.. ChatPrivado
+    Usuario "0..*" --> "0..1" MediadorChat : mediador
+    SalaChat o-- "0..*" Usuario : participantes
+    ChatPrivado o-- "0..2" Usuario : participantes
+    Main ..> SalaChat : cria
+    Main ..> Usuario : cria

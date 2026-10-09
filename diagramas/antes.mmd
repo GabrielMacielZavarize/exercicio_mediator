@@ -1,0 +1,17 @@
+classDiagram
+    direction LR
+    class Main {
+        +main(String[] args)$ void
+    }
+    class Usuario {
+        -String nome
+        -List~Usuario~ contatos
+        +Usuario(String nome)
+        +getNome() String
+        +adicionarContato(Usuario usuario) void
+        +removerContato(Usuario usuario) void
+        +enviar(String mensagem) void
+        +receber(String remetente, String mensagem) void
+    }
+    Main ..> Usuario : cria e liga um a um
+    Usuario "0..*" --> "0..*" Usuario : contatos
